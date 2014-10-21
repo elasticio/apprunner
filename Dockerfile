@@ -1,4 +1,4 @@
-FROM elastic/stack
+FROM elasticio/cedarish
 
 ADD ./runner/ /runner
 #ADD ./bin/sdutil /bin/sdutil
