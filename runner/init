@@ -12,7 +12,9 @@ mkdir -p $HOME
 if [[ $(ls -A $HOME) ]]; then
 	true
 elif [[ $SLUG_URL ]]; then
+	echo "Downloading slug..."
 	curl -s "$SLUG_URL" | tar -xzC $HOME
+	echo "Successfully downloaded and extracted slug file"
 	unset SLUG_URL
 else
 	echo "No $SLUG_URL was set, will try to read from stdin"
@@ -66,5 +68,5 @@ else
 fi
 
 ## Run!
-
+echo "Starting the application with ${runner} ${command}"
 exec $runner "$command"
