@@ -4,7 +4,7 @@ set -eo pipefail
 ## Load slug from Bind Mount, URL or STDIN
 
 echo "Starting application in apprunner"
-echo "Slug URL is set to :" + ${SLUG_URL}
+echo "Slug URL is set to : ${SLUG_URL}"
 
 export HOME=/app
 mkdir -p $HOME
