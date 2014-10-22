@@ -3,6 +3,9 @@ set -eo pipefail
 
 ## Load slug from Bind Mount, URL or STDIN
 
+echo "Starting application in apprunner"
+echo "Slug URL is set to :" + ${SLUG_URL}
+
 export HOME=/app
 mkdir -p $HOME
 
@@ -12,6 +15,7 @@ elif [[ $SLUG_URL ]]; then
 	curl -s "$SLUG_URL" | tar -xzC $HOME
 	unset SLUG_URL
 else
+	echo "No $SLUG_URL was set, will try to read from stdin"
 	cat | tar -xzC $HOME
 fi
 cd $HOME
