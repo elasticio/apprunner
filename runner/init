@@ -13,7 +13,7 @@ if [[ $(ls -A $HOME) ]]; then
 	true
 elif [[ $SLUG_URL ]]; then
 	echo "Downloading slug..."
-	curl -s "$SLUG_URL" | tar -xzC $HOME
+	curl -L -s "$SLUG_URL" | tar -xzC $HOME
 	echo "Successfully downloaded and extracted slug file"
 	unset SLUG_URL
 else
