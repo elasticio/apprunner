@@ -17,7 +17,7 @@ elif [[ $SLUG_URL ]]; then
 	echo "Successfully downloaded and extracted slug file"
 	unset SLUG_URL
 else
-	echo "No $SLUG_URL was set, will try to read from stdin"
+	echo "No SLUG_URL was set, will try to read from stdin"
 	cat | tar -xzC $HOME
 fi
 cd $HOME
