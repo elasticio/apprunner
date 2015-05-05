@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eo pipefail
 
+SAILOR_PATH_NODEJS="./node_modules/sailor/run.js"
+
 ## Load slug from Bind Mount, URL or STDIN
 
 echo "Starting application in apprunner"
@@ -44,7 +46,14 @@ case "$1" in
 			command="$(ruby -e "require 'yaml';puts (YAML.load_file('.release')['default_process_types'] || {})['$2']")"
 		fi
 		;;
-
+	sailor)
+		if [[ -f $SAILOR_PATH_NODEJS ]]; then
+			command="node $SAILOR_PATH_NODEJS"
+		else
+			echo "Can't find sailor executor"
+			exit 1
+		fi
+		;;
 	*)
 		command="$@"
 		;;
