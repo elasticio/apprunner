@@ -41,6 +41,10 @@ in the Procfile of the app, or of the default process types defined by the
 buildpack that built the app. For example, here we can start the `web` process:
 
 	$ cat myslug.tgz | docker run -i -a stdin -a stdout -a stderr elasticio/apprunner start web
+	
+To provide .env variables to started image, use "--env-file" option 
+
+        $ cat myslug.tgz | docker run -i -a stdin -a stdout -a stderr --env-file .env elasticio/apprunner bash sail.sh
 
 ## Service Discovery
 
