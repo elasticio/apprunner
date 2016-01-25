@@ -28,8 +28,8 @@ cd $HOME
 
 shopt -s nullglob
 mkdir -p .profile.d
-if [[ -s .release ]]; then
-	ruby -e "require 'yaml';(YAML.load_file('.release')['config_vars'] || {}).each{|k,v| puts \"#{k}='#{v}'\"}" > .profile.d/config_vars
+if [[ -s .elasticio_sailor ]]; then
+	ruby -e "require 'yaml';(YAML.load_file('.elasticio_sailor')['config_vars'] || {}).each{|k,v| puts \"#{k}='#{v}'\"}" > .profile.d/env_vars
 fi
 for file in .profile.d/*; do
 	source $file
