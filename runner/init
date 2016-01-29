@@ -50,7 +50,6 @@ case "$1" in
 		else
 			command="$(ruby -e "require 'yaml';puts (YAML.load_file('.release')['default_process_types'] || {})['$2']")"
 		fi
-		command="bash -c \"${command}\""
 		;;
 	*)
 		command="$@"
@@ -58,5 +57,5 @@ case "$1" in
 esac
 
 ## Run!
-echo "Starting the application..."
+echo "Starting the application with ${command}"
 exec $command
