@@ -1,8 +1,6 @@
 #!/bin/bash
 set -eo pipefail
 
-SAILOR_PATH_NODEJS="./node_modules/sailor/run.js"
-
 ## Load slug from Bind Mount, URL or STDIN
 
 echo "Starting application in apprunner"
@@ -31,9 +29,16 @@ mkdir -p .profile.d
 if [[ -s .release ]]; then
 	ruby -e "require 'yaml';(YAML.load_file('.release')['config_vars'] || {}).each{|k,v| puts \"#{k}=\${#{k}:-'#{v}'}\"}" > .profile.d/config_vars
 fi
+
+if [[ -s .elasticio_sailor ]]; then
+    echo "Writing config vars to .profile.d/env_vars"
+	ruby -e "require 'yaml';(YAML.load_file('.elasticio_sailor')['config_vars'] || {}).each{|k,v| puts \"export #{k}='#{v}'\"}" > .profile.d/env_vars
+fi
+
 for file in .profile.d/*; do
 	source $file
 done
+
 hash -r
 
 ## Inject "start" command to run processes defined in Procfile
@@ -45,37 +50,13 @@ case "$1" in
 		else
 			command="$(ruby -e "require 'yaml';puts (YAML.load_file('.release')['default_process_types'] || {})['$2']")"
 		fi
-		;;
-	sailor)
-		if [[ -f $SAILOR_PATH_NODEJS ]]; then
-			command="node $SAILOR_PATH_NODEJS"
-		else
-			echo "Can't find sailor executor"
-			exit 1
-		fi
+		command="bash -c \"${command}\""
 		;;
 	*)
 		command="$@"
 		;;
 esac
 
-## Use sdutil to register with service discovery
-
-if [[ $SD_NAME && $PORT ]]; then
-	if [[ $SD_HOST ]]; then
-		runner="sdutil exec -h $SD_HOST -s $SD_NAME:$PORT bash -c"
-		unset SD_HOST
-	else
-		runner="sdutil exec -s $SD_NAME:$PORT bash -c"
-	fi
-	unset SD_NAME
-elif [[ $SD_ARGS ]]; then
-	runner="sdutil $SD_ARGS bash -c"
-	unset SD_ARGS
-else
-	runner="bash -c"
-fi
-
 ## Run!
-echo "Starting the application with ${runner} ${command}"
-exec $runner "$command"
+echo "Starting the application with ${command}"
+exec $command
