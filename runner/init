@@ -1,17 +1,17 @@
 #!/bin/bash
 set -eo pipefail
 
-## Load slug from Bind Mount, URL or STDIN
-
 echo "Starting application in apprunner"
-echo "Slug URL is set to : ${SLUG_URL}"
 
 export HOME=/app
 mkdir -p $HOME
 
+## Load slug from Bind Mount, URL or STDIN
 if [[ $(ls -A $HOME) ]]; then
+	echo "Will try to start app at ${HOME}"
 	true
 elif [[ $SLUG_URL ]]; then
+	echo "Slug URL is set to: ${SLUG_URL}"
 	echo "Downloading slug..."
 	curl -L -s "$SLUG_URL" | tar -xzC $HOME
 	echo "Successfully downloaded and extracted slug file"
@@ -27,12 +27,12 @@ cd $HOME
 shopt -s nullglob
 mkdir -p .profile.d
 if [[ -s .release ]]; then
-	ruby -e "require 'yaml';(YAML.load_file('.release')['config_vars'] || {}).each{|k,v| puts \"#{k}=\${#{k}:-'#{v}'}\"}" > .profile.d/config_vars
+	#ruby -e "require 'yaml';(YAML.load_file('.release')['config_vars'] || {}).each{|k,v| puts \"#{k}=\${#{k}:-'#{v}'}\"}" > .profile.d/config_vars
 fi
 
 if [[ -s .elasticio_sailor ]]; then
-    echo "Writing config vars to .profile.d/env_vars"
-	ruby -e "require 'yaml';(YAML.load_file('.elasticio_sailor')['config_vars'] || {}).each{|k,v| puts \"export #{k}='#{v}'\"}" > .profile.d/env_vars
+    	echo "Writing config vars to .profile.d/env_vars"
+	#ruby -e "require 'yaml';(YAML.load_file('.elasticio_sailor')['config_vars'] || {}).each{|k,v| puts \"export #{k}='#{v}'\"}" > .profile.d/env_vars
 fi
 
 for file in .profile.d/*; do
