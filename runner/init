@@ -27,12 +27,12 @@ shopt -s nullglob
 mkdir -p .profile.d
 if [[ -s .release ]]; then
 	echo "Writing config vars to .profile.d/config_vars"
-	#ruby -e "require 'yaml';(YAML.load_file('.release')['config_vars'] || {}).each{|k,v| puts \"#{k}=\${#{k}:-'#{v}'}\"}" > .profile.d/config_vars
+	ruby -e "require 'yaml';(YAML.load_file('.release')['config_vars'] || {}).each{|k,v| puts \"#{k}=\${#{k}:-'#{v}'}\"}" > .profile.d/config_vars
 fi
 
 if [[ -s .elasticio_sailor ]]; then
     	echo "Writing config vars to .profile.d/env_vars"
-	#ruby -e "require 'yaml';(YAML.load_file('.elasticio_sailor')['config_vars'] || {}).each{|k,v| puts \"export #{k}='#{v}'\"}" > .profile.d/env_vars
+	ruby -e "require 'yaml';(YAML.load_file('.elasticio_sailor')['config_vars'] || {}).each{|k,v| puts \"export #{k}='#{v}'\"}" > .profile.d/env_vars
 fi
 
 for file in .profile.d/*; do
