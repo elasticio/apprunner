@@ -12,7 +12,7 @@ if [[ $(ls -A $HOME) ]]; then
 	true
 elif [[ $SLUG_URL ]]; then
 	echo "Slug URL is set to: ${SLUG_URL}. Starting download..."
-	curl -L -s "$SLUG_URL" | tar -xzC $HOME
+	curl -L -s --connect-timeout 60 "$SLUG_URL" | tar -xzC $HOME
 	echo "Successfully downloaded and extracted slug file"
 	unset SLUG_URL
 else
