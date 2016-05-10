@@ -11,7 +11,7 @@ if [[ $(ls -A $HOME) ]]; then
 	echo "Will try to start app at ${HOME}"
 	true
 elif [[ $SLUG_URL ]]; then
-	echo "Starting download slug ..."
+	echo "Starting slug download ..."
 	curl -L -s --connect-timeout 60 "$SLUG_URL" | tar -xzC $HOME
 	echo "Successfully downloaded and extracted slug file"
 	unset SLUG_URL
