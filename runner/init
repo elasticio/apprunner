@@ -1,5 +1,6 @@
 #!/bin/bash
-set -eo pipefail
+COMP_MEM_LIMIT_MB="${COMP_MEM_LIMIT_MB:-128}"
+alias node='node --max-old-space-size ${COMP_MEM_LIMIT_MB}'
 
 echo "Starting application in apprunner"
 
