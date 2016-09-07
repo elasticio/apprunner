@@ -5,4 +5,7 @@ mem_limit_Mbytes=`expr $mem_limit_bytes / 1048576`
 node () {
     `which node` --max-old-space-size=$mem_limit_Mbytes $@
 }
+java () {
+    `which java` --Xmx${mem_limit_Mbytes}m $@
+}
 $command
