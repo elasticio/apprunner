@@ -1,9 +1,6 @@
 #!/bin/bash
 set -eo pipefail
 
-COMP_MEM_LIMIT_MB="${COMP_MEM_LIMIT_MB:-256}"
-alias node='node --max-old-space-size=${COMP_MEM_LIMIT_MB}'
-
 echo "Starting application in apprunner"
 
 export HOME=/app
@@ -62,5 +59,4 @@ esac
 ## Run!
 echo "Starting the application with ${command}"
 export command
-export COMP_MEM_LIMIT_MB
 exec "/runner/command.sh"
