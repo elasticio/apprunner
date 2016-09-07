@@ -2,7 +2,7 @@
 set -eo pipefail
 
 COMP_MEM_LIMIT_MB="${COMP_MEM_LIMIT_MB:-256}"
-alias node='node --max-old-space-size ${COMP_MEM_LIMIT_MB}'
+alias node='node --max-old-space-size=${COMP_MEM_LIMIT_MB}'
 
 echo "Starting application in apprunner"
 
