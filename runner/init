@@ -61,4 +61,6 @@ esac
 
 ## Run!
 echo "Starting the application with ${command}"
-exec $command
+export command
+export COMP_MEM_LIMIT_MB
+exec "/runner/command.sh"
