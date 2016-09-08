@@ -57,6 +57,5 @@ case "$1" in
 esac
 
 ## Run!
-echo "Starting the application with ${command}"
 export command
 exec "/runner/command.sh"

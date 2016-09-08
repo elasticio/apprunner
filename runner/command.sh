@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 mem_limit_bytes=`cat /sys/fs/cgroup/memory/memory.limit_in_bytes`
 mem_limit_Mbytes=`expr $mem_limit_bytes / 1048576`
 
@@ -8,4 +10,6 @@ node () {
 java () {
     `which java` --Xms${mem_limit_Mbytes}M --Xmx${mem_limit_Mbytes}M $@
 }
+
+echo "Starting the application with ${command}"
 $command
