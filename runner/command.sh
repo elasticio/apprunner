@@ -8,7 +8,7 @@ node () {
     `which node` --max-old-space-size=$mem_limit_Mbytes $@
 }
 java () {
-    `which java` --Xms${mem_limit_Mbytes}M --Xmx${mem_limit_Mbytes}M $@
+    `which java` -Xms${mem_limit_Mbytes}M -Xmx${mem_limit_Mbytes}M $@
 }
 
 echo "Starting the application with ${command}"
