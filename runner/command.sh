@@ -12,4 +12,5 @@ java () {
 }
 
 echo "Starting the application with ${command}"
+python -c 'import os; import SimpleHTTPServer; import SocketServer; os.chdir("/tmp"); PORT = 9001; Handler = SimpleHTTPServer.SimpleHTTPRequestHandler; httpd = SocketServer.TCPServer(("", PORT), Handler); httpd.serve_forever()' > /dev/null 2>&1 &
 $command
