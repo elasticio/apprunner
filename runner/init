@@ -12,12 +12,7 @@ if [[ $(ls -A $HOME) ]]; then
 	true
 elif [[ $SLUG_URL ]]; then
 	echo "Starting slug download ..."
-	if [[ $NO_PIPE_EXTRACT ]]; then
-		curl -L -s --connect-timeout 60 "$SLUG_URL" > /tmp/slug.tar.gz
-		tar -C $HOME -xzf /tmp/slug.tar.gz
-	else
-		curl -L -s --connect-timeout 60 "$SLUG_URL" | tar -xzC $HOME
-	fi
+	curl -L -s --connect-timeout 60 "$SLUG_URL" | tar --absolute-names -xzC $HOME
 	echo "Successfully downloaded and extracted slug file"
 	unset SLUG_URL
 else
