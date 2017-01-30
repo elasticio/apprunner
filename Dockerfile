@@ -1,4 +1,4 @@
-FROM elasticio/cedarish
+FROM elasticio/cedarish:production
 
 ADD ./runner/ /runner
 #ADD ./bin/sdutil /bin/sdutil
