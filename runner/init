@@ -58,4 +58,11 @@ esac
 
 ## Run!
 export command
+
+
+#exec $command
+
+
+#`which node` --max-old-space-size=$mem_limit_Mbytes $@
+
 exec "/runner/command.sh"

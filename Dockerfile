@@ -8,4 +8,4 @@ RUN chmod +x /tini
 ADD ./runner/ /runner
 #ADD ./bin/sdutil /bin/sdutil
 
-ENTRYPOINT ["/tini", "--", "/runner/init"]
+ENTRYPOINT ["/tini", "-vvv", "--", "/runner/init"]

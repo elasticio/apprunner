@@ -15,4 +15,4 @@ java () {
 }
 
 echo "Starting the application with ${command}"
-$command
+exec $command
