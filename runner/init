@@ -58,4 +58,10 @@ esac
 
 ## Run!
 export command
+
+
+#exec $command
+
+
+
 exec "/runner/command.sh"
