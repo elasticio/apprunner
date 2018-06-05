@@ -1,12 +1,14 @@
-FROM elasticio/cedarish:production
+FROM debian:stretch
 
-# Install and configure Tini
-# https://github.com/krallin/tini
-ENV TINI_VERSION v0.17.0
+### Installing pre-requisites
+RUN apt-get update && \
+	apt-get install -y --no-install-recommends curl openjdk-8-jre && \
+	rm -rf /var/lib/apt/lists/*
+
+### Installing Tini
+ENV TINI_VERSION v0.18.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
-ADD ./runner/ /runner
-#ADD ./bin/sdutil /bin/sdutil
-
-ENTRYPOINT ["/tini", "-v", "-e", "143", "--", "/runner/init"]
+COPY bin/run.sh /run.sh
+ENTRYPOINT ["/tini", "-v", "-e", "143", "--", "/run.sh"]
