@@ -40,11 +40,13 @@ export PATH="$HOME/.heroku/node/bin:$HOME/bin:$HOME/node_modules/.bin:$PATH"
 export NODE_HOME="$HOME/.heroku/node"
 
 node () {
-    $(command -v node) --max-old-space-size=${mem_limit_Mbytes} "$@"
+    echo "Running Node Component via $(which node)"
+    $(which node) --max-old-space-size=${mem_limit_Mbytes} $@
 }
 
 java () {
-    $(command -v java) -Xms${mem_limit_Mbytes}M -Xmx${mem_limit_Mbytes}M "$@"
+    echo "Running Java Component via $(which java)"
+    $(which java) -Xms${mem_limit_Mbytes}M -Xmx${mem_limit_Mbytes}M $@
 }
 
-exec "$@"
+exec $@
