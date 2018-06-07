@@ -23,30 +23,10 @@ else
     cat | tar -xzC $HOME
 fi
 
-### -------------- ###
-### Setting Limits ###
-### -------------- ###
-if [ -e /sys/fs/cgroup/memory/memory.limit_in_bytes ]; then
-    mem_limit_bytes=$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)
-    mem_limit_Mbytes=$((${mem_limit_bytes} / 1048576))
-else
-    mem_limit_Mbytes=512
-fi
-
 ### ----------------- ###
 ### Running Component ###
 ### ----------------- ###
 export PATH="$HOME/.heroku/node/bin:$HOME/bin:$HOME/node_modules/.bin:$PATH"
 export NODE_HOME="$HOME/.heroku/node"
-
-node () {
-    echo "Running Node Component via $(which node)"
-    $(which node) --max-old-space-size=${mem_limit_Mbytes} $@
-}
-
-java () {
-    echo "Running Java Component via $(which java)"
-    $(which java) -Xms${mem_limit_Mbytes}M -Xmx${mem_limit_Mbytes}M $@
-}
 
 exec $@
