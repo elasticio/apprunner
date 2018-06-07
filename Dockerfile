@@ -1,5 +1,6 @@
 FROM alpine:3.7
 
+ENV CLASSPATH="./build/classes/main:./build/resources/main:./build/elasticio/dependencies/*"
 ENV ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download"
 ENV ALPINE_GLIBC_PACKAGE_VERSION="2.27-r0"
 ENV ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$ALPINE_GLIBC_PACKAGE_VERSION.apk"
