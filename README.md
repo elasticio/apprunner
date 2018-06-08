@@ -4,7 +4,7 @@ A container image that runs Heroku-like [slugs](https://devcenter.heroku.com/art
 
 ## What does it do exactly?
 
-It takes a gzipped tarball of a "compiled" application via stdin or from a URL, letting you run a command in that application environment, or start a process defined in the application Procfile.
+It takes a gzipped tarball of a "compiled" application via stdin or from a URL, letting you run a command in that application environment.
 
 ## Using Slug Runner
 
@@ -27,16 +27,8 @@ This is currently the only way to run interactively, for example running Bash:
 
 	$ docker run -e SLUG_URL=http://example.com/slug.tgz -i -t elasticio/apprunner /bin/bash
 
-Commands are run in the application environment, in the root directory of the application, with any default environment variables, and scripts sourced from .profile.d of the application.
+Commands are run in the application environment, in the root directory of the application, with any default environment variables.
 
 To provide .env variables to started image, use "--env-file" option 
 
 	$ cat myslug.tgz | docker run -i -a stdin -a stdout -a stderr --env-file .env elasticio/apprunner bash sail.sh
-
-## Service Discovery
-
-The runner can also register with [go-discover](/discoverd/client) based service discovery using [sdutil](/sdutil).
-If `$SD_NAME` and `$PORT` environment variables are set, the command is run with `sdutil exec $SD_NAME:$PORT`.
-`$SD_NAME` is unset before the command is run, but `$PORT` is left set since it is often used without service discovery.
-
-It is also possible to fully customize the command line for `sdutil` tool using `$SD_ARGS`.
