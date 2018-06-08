@@ -1,12 +1,20 @@
-FROM elasticio/cedarish:production
+FROM alpine:3.7
 
-# Install and configure Tini
-# https://github.com/krallin/tini
-ENV TINI_VERSION v0.17.0
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-RUN chmod +x /tini
+ENV CLASSPATH="./build/classes/main:./build/resources/main:./build/elasticio/dependencies/*"
+ENV ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download"
+ENV ALPINE_GLIBC_PACKAGE_VERSION="2.27-r0"
+ENV ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$ALPINE_GLIBC_PACKAGE_VERSION.apk"
+ENV ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-$ALPINE_GLIBC_PACKAGE_VERSION.apk"
 
-ADD ./runner/ /runner
-#ADD ./bin/sdutil /bin/sdutil
+RUN apk add --no-cache curl=7.60.0-r1 && \
+    apk add --no-cache libstdc++=6.4.0-r5 && \
+    apk add --no-cache openjdk8-jre-base=8.151.12-r0 && \
+    apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community tini=0.18.0-r0 && \
+    curl -s -L -o "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" && \
+    curl -s -L -o "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" && \
+    apk add --no-cache --allow-untrusted "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" && \
+    apk add --no-cache --allow-untrusted "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" && \
+    rm "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME"
 
-ENTRYPOINT ["/tini", "-v", "-e", "143", "--", "/runner/init"]
+COPY bin/run.sh /run.sh
+ENTRYPOINT ["/sbin/tini", "-v", "-e", "143", "--", "/run.sh"]
