@@ -6,8 +6,7 @@ echo "Starting application in apprunner..."
 ### ---------------- ###
 ### Downloading Slug ###
 ### ---------------- ###
-export HOME=/app
-mkdir -p $HOME
+
 cd $HOME
 
 if [ "$(ls -A $HOME)" ]; then
