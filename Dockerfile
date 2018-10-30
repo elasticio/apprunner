@@ -10,9 +10,9 @@ RUN addgroup -S apprunner && \
     adduser -S apprunner -G apprunner -h /home/apprunner
 
 USER root
-RUN apk add --no-cache curl=7.60.0-r1 && \
+RUN apk add --no-cache curl=7.61.1-r0 && \
     apk add --no-cache libstdc++=6.4.0-r5 && \
-    apk add --no-cache openjdk8-jre-base=8.171.11-r0 && \
+    apk add --no-cache openjdk8-jre-base=8.181.13-r0 && \
     apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community tini=0.18.0-r0 && \
     curl -s -L -o "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" && \
     curl -s -L -o "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" && \
