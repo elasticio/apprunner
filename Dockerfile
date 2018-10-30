@@ -6,6 +6,10 @@ ENV ALPINE_GLIBC_PACKAGE_VERSION="2.27-r0"
 ENV ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$ALPINE_GLIBC_PACKAGE_VERSION.apk"
 ENV ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-$ALPINE_GLIBC_PACKAGE_VERSION.apk"
 
+RUN addgroup -S apprunner && \
+    adduser -S apprunner -G apprunner -h /home/apprunner
+
+USER root
 RUN apk add --no-cache curl=7.60.0-r1 && \
     apk add --no-cache libstdc++=6.4.0-r5 && \
     apk add --no-cache openjdk8-jre-base=8.171.11-r0 && \
@@ -16,5 +20,7 @@ RUN apk add --no-cache curl=7.60.0-r1 && \
     apk add --no-cache --allow-untrusted "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" && \
     rm "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME"
 
-COPY bin/run.sh /run.sh
+USER apprunner
+COPY --chown=apprunner:apprunner bin/run.sh /run.sh
+
 ENTRYPOINT ["/sbin/tini", "-v", "-e", "143", "--", "/run.sh"]
