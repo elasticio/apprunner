@@ -14,7 +14,7 @@ if [ "$(ls -A $HOME)" ]; then
     true
 elif [ "${SLUG_URL}" ]; then
     echo "Starting slug download ..."
-    curl --noproxy marathon.slave.mesos -L -s --connect-timeout 60 "$SLUG_URL" | tar -xzC $HOME
+    curl --noproxy marathon.slave.mesos -L -s --connect-timeout 60 --retry-connrefused --retry-delay 1 --retry 5 "$SLUG_URL" | tar -xzC $HOME
     echo "Successfully downloaded and extracted slug file"
     unset SLUG_URL
 else
