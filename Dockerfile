@@ -13,6 +13,7 @@ USER root
 RUN apk add --no-cache curl && \
     apk add --no-cache libstdc++ && \
     apk add --no-cache openjdk8-jre-base && \
+    apk add --no-cache nss && \
     apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community tini && \
     curl -s -L -o "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" && \
     curl -s -L -o "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" && \
